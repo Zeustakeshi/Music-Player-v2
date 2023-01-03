@@ -51,7 +51,7 @@
     }
     #content {
         min-height: 90vh;
-        min-width: 100vw;
+        /* min-width: 100vw; */
         flex: 1;
     }
 
