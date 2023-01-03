@@ -4,15 +4,21 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+            integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+            crossorigin="anonymous"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="global_style.css" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="stylesheet" href="reposive.css" />
+        <link rel="stylesheet" href="./css/global_style.css" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link rel="stylesheet" href="./css/reposive.css" />
         <title>Music player</title>
     </head>
     <body>
@@ -372,6 +378,7 @@
                     </div>
                 </div>
                 <div id="control">
+                    <audio id="audio" src=""></audio>
                     <div class="slidecontainer">
                         <div class="time">
                             <span class="start">2:14</span>
@@ -444,18 +451,8 @@
                             </svg>
                         </div>
                         <div class="btn-play">
-                            <svg
-                                width="21"
-                                height="26"
-                                viewBox="0 0 21 26"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M20.0223 13.8481C20.6489 13.4564 20.6489 12.5438 20.0223 12.1521L2.03 0.906928C1.36395 0.490648 0.5 0.969491 0.5 1.75493V24.2452C0.5 25.0307 1.36395 25.5095 2.03 25.0932L20.0223 13.8481Z"
-                                    fill="currentcolor"
-                                />
-                            </svg>
+                            <i class="fas fa-pause icon-pause"></i>
+                            <i class="fas fa-play icon-play"></i>
                         </div>
                         <div class="next-song">
                             <svg
@@ -878,5 +875,6 @@
                 </div>
             </div>
         </div>
+        <script src="./js/app.js" type="module"></script>
     </body>
 </html>
