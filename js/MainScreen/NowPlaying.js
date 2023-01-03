@@ -14,10 +14,11 @@ export default class NowPlaying {
         );
         // control
         this.control = new Control(
+            this.songs,
             this.song,
-            this.nextSong.bind(this),
-            this.prevSong.bind(this),
-            this.audio
+            this.audio,
+            this.setCurrIndexSong.bind(this),
+            this.getCurrIndexSong.bind(this)
         );
         // render to view
         this.view();
@@ -29,16 +30,14 @@ export default class NowPlaying {
         this.singer.innerText = this.song.singer || "unknow";
     }
 
-    nextSong() {
-        this.currIndexSong += 1;
-        if (this.currIndexSong > this.songs.length) this.currIndexSong = 0;
-        this.song.upDate(this.songs[this.currIndexSong]);
-        this.view();
+    getCurrIndexSong() {
+        return this.currIndexSong;
     }
 
-    prevSong() {
-        this.currIndexSong -= 1;
-        if (this.currIndexSong < 0) this.currIndexSong = this.songs.length - 1;
+    setCurrIndexSong(index) {
+        if (index < 0) index = this.songs.length - 1;
+        else if (index > this.songs.length) index = 0;
+        this.currIndexSong = index;
         this.song.upDate(this.songs[this.currIndexSong]);
         this.view();
     }
@@ -119,14 +118,16 @@ class Progress {
 }
 
 class Control {
-    constructor(song, nextSong, prevSong, audio) {
+    constructor(songs, song, audio, setCurrIndex, getCurrIndex) {
+        this.songs = songs;
         this.audio = audio;
+        this.setCurrIndex = setCurrIndex;
+        this.getCurrIndex = getCurrIndex;
 
         this.song = song;
         this.isPlaying = false;
-        this.nextSong = nextSong;
-        this.prevSong = prevSong;
-
+        this.isRandom = false;
+        this.isRepeat = false;
         // btn like
         this.btnLike = document.querySelector(
             "#content .thumb .action .btn-like"
@@ -139,8 +140,10 @@ class Control {
         // progress bar
         this.progress = new Progress(this.audio);
         // main control
-        this.btnRandom;
-        this.btnRepeatSong;
+        this.btnRandom = document.querySelector("#control .content .random");
+        this.btnRepeat = document.querySelector(
+            "#control .content .repeat-song"
+        );
         this.btnNextSong = document.querySelector(
             "#control .content .next-song"
         );
@@ -178,20 +181,67 @@ class Control {
 
         // on song ended
         this.audio.addEventListener("ended", this.handleEndSong.bind(this));
+
+        // radom song
+        this.btnRandom.addEventListener(
+            "click",
+            this.handleClickRandomBtn.bind(this)
+        );
+        // repeat song
+        this.btnRepeat.addEventListener(
+            "click",
+            this.handleClickRepeatBtn.bind(this)
+        );
+    }
+
+    clearState() {
+        this.progress.reset();
+        this.progress.init();
+        this.handlePauseSong();
+    }
+
+    handleClickRandomBtn() {
+        if (!this.isRandom) {
+            this.btnRandom.classList.add("active");
+            this.btnRepeat.classList.remove("active");
+        } else {
+            this.btnRandom.classList.remove("active");
+        }
+        this.isRandom = !this.isRandom;
+        this.isRepeat = false;
+    }
+
+    handleClickRepeatBtn() {
+        if (!this.isRepeat) {
+            this.btnRepeat.classList.add("active");
+            this.btnRandom.classList.remove("active");
+        } else {
+            this.btnRepeat.classList.remove("active");
+        }
+        this.isRepeat = !this.isRepeat;
+        this.isRandom = false;
+    }
+
+    handleRandomSong() {
+        const randomIndex = Math.floor(Math.random() * this.songs.length);
+        this.setCurrIndex(randomIndex);
+        this.clearState();
+        this.handlePlaySong();
+    }
+
+    handleRepeatSong() {
+        this.clearState();
+        this.handlePlaySong();
     }
 
     handlePrevSong() {
-        this.progress.reset();
-        this.progress.init();
-        this.prevSong();
-        this.handlePauseSong();
+        this.setCurrIndex(this.getCurrIndex() - 1);
+        this.clearState();
     }
 
     handleNextSong() {
-        this.progress.reset();
-        this.progress.init();
-        this.nextSong();
-        this.handlePauseSong();
+        this.setCurrIndex(this.getCurrIndex() + 1);
+        this.clearState();
     }
 
     handlePlaySong() {
@@ -199,6 +249,7 @@ class Control {
         this.btnPlaySong.classList.add("playing");
         this.progress.init();
         this.progress.update();
+        this.isPlaying = true;
     }
 
     handlePauseSong() {
@@ -210,17 +261,21 @@ class Control {
     handleToggleSong() {
         if (!this.isPlaying) {
             this.handlePlaySong();
-            this.isPlaying = true;
         } else {
             this.handlePauseSong();
-            this.isPlaying = false;
         }
     }
 
     handleEndSong() {
-        this.progress.reset();
-        this.nextSong();
-        this.handlePlaySong();
+        if (this.isRandom && !this.isRepeat) {
+            this.handleRandomSong();
+        } else if (this.isRepeat && !this.isRandom) {
+            this.handleRepeatSong();
+        } else {
+            this.progress.reset();
+            this.setCurrIndex(this.getCurrIndex() + 1);
+            this.handlePlaySong();
+        }
     }
 
     addLike() {}
