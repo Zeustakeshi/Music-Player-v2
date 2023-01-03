@@ -128,6 +128,7 @@ class Control {
         this.isPlaying = false;
         this.isRandom = false;
         this.isRepeat = false;
+
         // btn like
         this.btnLike = document.querySelector(
             "#content .thumb .action .btn-like"
@@ -153,6 +154,8 @@ class Control {
         this.btnPlaySong = document.querySelector(
             "#control .content .btn-play"
         );
+        // volum control
+        this.volume = document.getElementById("volume");
 
         this.handleEven();
     }
@@ -191,6 +194,12 @@ class Control {
         this.btnRepeat.addEventListener(
             "click",
             this.handleClickRepeatBtn.bind(this)
+        );
+
+        // change volume
+        this.volume.addEventListener(
+            "change",
+            this.handleChangeVolume.bind(this)
         );
     }
 
@@ -276,6 +285,10 @@ class Control {
             this.setCurrIndex(this.getCurrIndex() + 1);
             this.handlePlaySong();
         }
+    }
+
+    handleChangeVolume(e) {
+        this.audio.volume = e.target.value / 100;
     }
 
     addLike() {}
