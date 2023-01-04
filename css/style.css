@@ -472,9 +472,9 @@ a {
     align-items: center;
 }
 
-#control .content .random:hover {
+/* #control .content .random:hover {
     color: var(--primary);
-}
+} */
 
 #control .content .random.active {
     color: var(--primary);
@@ -530,9 +530,9 @@ a {
     align-items: center;
 }
 
-#control .content .repeat-song:hover {
+/* #control .content .repeat-song:hover {
     color: var(--primary);
-}
+} */
 #control .content .repeat-song.active {
     color: var(--primary);
 }

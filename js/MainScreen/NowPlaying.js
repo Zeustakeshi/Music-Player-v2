@@ -1,10 +1,15 @@
-export default class NowPlaying {
-    constructor(songs) {
-        this.audio = document.getElementById("audio");
-        this.songs = songs;
-        this.currIndexSong = 0;
-        this.song = new Song(this.songs[this.currIndexSong], this.audio);
+import Song from "./Song.js";
 
+export default class NowPlaying {
+    constructor(global) {
+        this.global = global;
+        this.audio = this.global.audio;
+        this.songs = this.global.songs;
+
+        this.song = new Song(
+            this.songs[this.global.getCurrIndexSong()],
+            this.audio
+        );
         this.thumb = document.querySelector("#content .thumb .img img");
         this.name = document.querySelector(
             "#content .thumb .action .name .main"
@@ -31,39 +36,18 @@ export default class NowPlaying {
     }
 
     getCurrIndexSong() {
-        return this.currIndexSong;
+        return this.global.getCurrIndexSong();
     }
 
     setCurrIndexSong(index) {
-        if (index < 0) index = this.songs.length - 1;
-        else if (index > this.songs.length) index = 0;
-        this.currIndexSong = index;
-        this.song.upDate(this.songs[this.currIndexSong]);
+        this.global.setCurrIndexSong(index);
+        this.song.upDate(this.songs[this.global.currIndexSong]);
         this.view();
     }
-}
 
-class Song {
-    constructor(data, audio) {
-        this.url = data.url;
-        this.audio = audio;
-        this.audio.setAttribute("src", this.url);
-        this.singer = data.singer;
-        this.name = data.name;
-        this.image = data.image;
-    }
-    upDate(data) {
-        this.singer = data.singer;
-        this.name = data.name;
-        this.image = data.image;
-        this.url = data.url;
-        this.audio.setAttribute("src", this.url);
-    }
-    play() {
-        this.audio.play();
-    }
-    pause() {
-        this.audio.pause();
+    changeSong(index) {
+        this.setCurrIndexSong(index);
+        this.control.clearState();
     }
 }
 
@@ -232,7 +216,10 @@ class Control {
     }
 
     handleRandomSong() {
-        const randomIndex = Math.floor(Math.random() * this.songs.length);
+        let randomIndex = Math.floor(Math.random() * this.songs.length);
+        while (this.getCurrIndex() == randomIndex) {
+            randomIndex = Math.floor(Math.random() * this.songs.length);
+        }
         this.setCurrIndex(randomIndex);
         this.clearState();
         this.handlePlaySong();
