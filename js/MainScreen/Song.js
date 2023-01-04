@@ -1,5 +1,6 @@
 export default class Song {
     constructor(song, audio) {
+        this.id = song.id;
         this.url = song.url;
         this.audio = audio;
         if (this.audio) {

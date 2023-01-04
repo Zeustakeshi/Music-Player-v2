@@ -11,10 +11,19 @@ export default class TopChart {
             "#sidebar-left .content .top-chart .container"
         );
         this.container.innerHTML = this.html;
+        this.handleClickItem();
+    }
+
+    handleClickItem() {
+        this.items.forEach((item) => {
+            item.handleClick(({ song }) => {
+                this.global.nowPlaying.changeSong(song.id - 1);
+            });
+        });
     }
 
     createItem() {
-        [...this.songs].splice(0, 4).forEach((song) => {
+        [...this.songs].splice(8, 4).forEach((song) => {
             this.items.push(new TopChartItem(song));
         });
     }
@@ -30,9 +39,16 @@ class TopChartItem {
         this.html = this.createHtml();
     }
 
+    handleClick(callback) {
+        this.element = document.querySelector(
+            `#sidebar-left .content .top-chart .container .item.item-${this.song.id}`
+        );
+        this.element.addEventListener("click", () => callback(this));
+    }
+
     createHtml() {
         return `
-        <div class="item" >
+        <div class="item item-${this.song.id}" >
             <div class="img">
                 <img
                     src="${this.song.image}"

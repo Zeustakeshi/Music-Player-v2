@@ -7,6 +7,12 @@ export default class TrackList {
         this.element = document.querySelector(".list.track-list");
         this.view();
         this.content.handleClickItem(this.handleClickItem.bind(this));
+
+        Sortable.create(this.element, {
+            group: "track-list",
+            animation: 250,
+            pull: true,
+        });
     }
 
     handleClickItem(item) {

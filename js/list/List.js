@@ -7,11 +7,22 @@ export default class List {
         this.items = [];
         this.createItem();
         this.html = this.createHtml();
+        this.activeItem = 1;
     }
 
     handleClickItem(callback) {
         this.items.forEach((item) => {
-            item.handleClick(callback);
+            item.handleClick((item) => {
+                this.activeItem = item.id;
+                this.items.forEach((item) => {
+                    if (item.id != this.activeItem) {
+                        item.removeActive();
+                    } else {
+                        item.addActive();
+                    }
+                });
+                callback(item);
+            });
         });
     }
 

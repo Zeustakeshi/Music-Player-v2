@@ -256,6 +256,11 @@ a {
     border-radius: 8px;
 }
 
+.list .list-item.active {
+    background: #059669;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
 .list .list-item:hover {
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
@@ -284,6 +289,11 @@ a {
     color: #333333;
 }
 
+.list .list-item.active .info .title {
+    color: #fff;
+    font-weight: 600;
+}
+
 .list .list-item .info .desc {
     font-style: normal;
     font-weight: 400;
@@ -292,6 +302,10 @@ a {
     color: #4f4f4f;
 }
 
+.list .list-item.active .info .desc {
+    font-weight: 600;
+    color: #fff;
+}
 .you-may-like .list {
     max-height: 135px;
 }

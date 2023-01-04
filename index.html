@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- font -->
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
@@ -16,6 +17,9 @@
             href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
             rel="stylesheet"
         />
+        <!-- Sortable.js -->
+        <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+        <!-- css -->
         <link rel="stylesheet" href="./css/global_style.css" />
         <link rel="stylesheet" href="./css/style.css" />
         <link rel="stylesheet" href="./css/reposive.css" />
@@ -268,7 +272,7 @@
                     <div class="you-may-like block">
                         <h4 class="title">You may like</h4>
                         <div class="list custom-scrollbar">
-                            <div class="list-item">
+                            <div class="list-item active">
                                 <div class="img">
                                     <img
                                         src="https://images.unsplash.com/photo-1551085254-e96b210db58a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=980&q=80"
@@ -663,7 +667,7 @@
                     </span>
                 </div>
                 <p class="sub-title">Playing next</p>
-                <div class="list custom-scrollbar track-list">
+                <div class="list custom-scrollbar track-list" id="track-list">
                     <div class="list-item">
                         <div class="img">
                             <img

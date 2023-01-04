@@ -9,14 +9,25 @@ export default class Item {
         this.html = this.createHtml();
     }
 
+    addActive() {
+        this.element.classList.add("active");
+    }
+
+    removeActive() {
+        this.element.classList.remove("active");
+    }
+
     handleClick(callback) {
         this.element = document.querySelector(`.list-item.item-${this.id}`);
-        this.element.addEventListener("click", () => callback(this));
+        this.element.addEventListener("click", () => {
+            callback(this);
+            this.addActive();
+        });
     }
 
     createHtml() {
         return `        
-            <div class="list-item item-${this.id}" >
+            <div class="list-item item-${this.id} " >
             <div class="img">
                 <img
                     src="${this.image}"
