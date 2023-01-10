@@ -18,6 +18,9 @@ export default class TopChart {
         this.items.forEach((item) => {
             item.handleClick(({ song }) => {
                 this.global.nowPlaying.changeSong(song.id - 1);
+
+                const topChartSong = this.global.songs[song.id - 1];
+                this.global.trackList.addSong(topChartSong);
             });
         });
     }

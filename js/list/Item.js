@@ -1,6 +1,5 @@
 export default class Item {
-    constructor(global, data) {
-        this.global = global;
+    constructor(data) {
         this.id = data.id;
         this.image = data.image;
         this.name = data.name;

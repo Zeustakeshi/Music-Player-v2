@@ -1,19 +1,34 @@
 import Item from "./Item.js";
 
 export default class List {
-    constructor(global, data) {
-        this.global = global;
+    constructor(data) {
+        // this.global = global;
         this.data = data;
         this.items = [];
         this.createItem();
         this.html = this.createHtml();
-        this.activeItem = 1;
+        this.activeItem = 0;
+    }
+
+    addItem(item) {
+        if (this.data.find((i) => JSON.stringify(i) === JSON.stringify(item))) {
+            return;
+        }
+        this.data.push(item);
+        this.items = [new Item(this.global, item), ...this.items];
+
+        this.activeItem = this.items[0].id;
+        this.html = this.createHtml();
+    }
+
+    addEvenClickItem(index, callback) {
+        this.activeItem = index;
+        this.handleClickItem(callback);
     }
 
     handleClickItem(callback) {
         this.items.forEach((item) => {
-            item.handleClick((item) => {
-                this.activeItem = item.id;
+            item.handleClick((item, index) => {
                 this.items.forEach((item) => {
                     if (item.id != this.activeItem) {
                         item.removeActive();
@@ -21,7 +36,7 @@ export default class List {
                         item.addActive();
                     }
                 });
-                callback(item);
+                callback(item, index);
             });
         });
     }
@@ -32,11 +47,7 @@ export default class List {
 
     createItem() {
         this.data.forEach((item) => {
-            const dataItem = {
-                ...item,
-                desc: item.singer,
-            };
-            this.items.push(new Item(this.global, dataItem));
+            this.items.push(new Item(item));
         });
     }
 }
